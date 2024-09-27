@@ -9,4 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserLogs extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $guarded = [
+        "id",
+        "deleted_at",
+        "created_at",
+        "updated_at",
+    ];
 }
