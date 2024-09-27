@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Title -->
-    <title>APP</title>
+    <title>@yield("title","Admin Panel")</title>
 
     <!-- Styles -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -18,17 +18,17 @@
     <link
         href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
         rel="stylesheet">
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/plugins/perfectscroll/perfect-scrollbar.css" rel="stylesheet">
-    <link href="../assets/plugins/pace/pace.css" rel="stylesheet">
+    <link href="{{ asset('assets/admin/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/plugins/perfectscroll/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/plugins/pace/pace.css') }}" rel="stylesheet">
 
 
 
-    <link href="../assets/css/main.min.css" rel="stylesheet">
-    <link href="../assets/css/custom.css" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/main.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/neptune.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/neptune.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/admin/images/neptune.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/admin/images/neptune.png') }}" />
 
 
 </head>
@@ -40,7 +40,7 @@
                 <a href="index.html" class="logo-icon"><span class="logo-text">Neptune</span></a>
                 <div class="sidebar-user-switcher user-activity-online">
                     <a href="#">
-                        <img src="../assets/images/avatars/avatar.png">
+                        <img src="{{ asset('assets/admin/images/avatars/avatar.png') }}">
                         <span class="activity-indicator"></span>
                         <span class="user-info-text">Chloe<br><span class="user-state-info">On a call</span></span>
                     </a>
@@ -430,15 +430,15 @@
                                 </li>
                                 <li class="nav-item hidden-on-mobile">
                                     <a class="nav-link language-dropdown-toggle" href="#" id="languageDropDown"
-                                        data-bs-toggle="dropdown"><img src="../assets/images/flags/us.png" alt=""></a>
+                                        data-bs-toggle="dropdown"><img src="{{asset('assets/admin/images/flags/us.png')}}" alt=""></a>
                                     <ul class="dropdown-menu dropdown-menu-end language-dropdown"
                                         aria-labelledby="languageDropDown">
                                         <li><a class="dropdown-item" href="#"><img
-                                                    src="../assets/images/flags/germany.png" alt="">German</a></li>
+                                                    src="{{asset('assets/admin/images/flags/germany.png')}}" alt="">German</a></li>
                                         <li><a class="dropdown-item" href="#"><img
-                                                    src="../assets/images/flags/italy.png" alt="">Italian</a></li>
+                                                    src="{{asset('assets/admin/images/flags/italy.png')}}" alt="">Italian</a></li>
                                         <li><a class="dropdown-item" href="#"><img
-                                                    src="../assets/images/flags/china.png" alt="">Chinese</a></li>
+                                                    src="{{asset('assets/admin/images/flags/china.png')}}" alt="">Chinese</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item hidden-on-mobile">
@@ -493,7 +493,7 @@
                                                 <div class="notifications-dropdown-item">
                                                     <div class="notifications-dropdown-item-image">
                                                         <span class="notifications-badge">
-                                                            <img src="../assets/images/avatars/avatar.png" alt="">
+                                                            <img src="{{asset('assets/admin/images/avatars/avatar.png')}}" alt="">
                                                         </span>
                                                     </div>
                                                     <div class="notifications-dropdown-item-text">
@@ -506,7 +506,7 @@
                                                 <div class="notifications-dropdown-item">
                                                     <div class="notifications-dropdown-item-image">
                                                         <span class="notifications-badge">
-                                                            <img src="../assets/images/avatars/avatar.png" alt="">
+                                                            <img src="{{asset('assets/admin/images/avatars/avatar.png')}}" alt="">
                                                         </span>
                                                     </div>
                                                     <div class="notifications-dropdown-item-text">
@@ -771,7 +771,7 @@
                                         <div class="widget-payment-request-container">
                                             <div class="widget-payment-request-author">
                                                 <div class="avatar m-r-sm">
-                                                    <img src="../assets/images/avatars/avatar.png" alt="">
+                                                    <img src="{{asset('assets/admin/images/avatars/avatar.png')}}" alt="">
                                                 </div>
                                                 <div class="widget-payment-request-author-info">
                                                     <span class="widget-payment-request-author-name">Caio Yousuke</span>
@@ -781,7 +781,7 @@
                                             </div>
                                             <div class="widget-payment-request-product">
                                                 <div class="widget-payment-request-product-image m-r-sm">
-                                                    <img src="../assets/images/other/facebook_logo.png" class="mt-auto"
+                                                    <img src="{{asset('assets/admin/images/other/facebook_logo.png')}}" class="mt-auto"
                                                         alt="">
                                                 </div>
                                                 <div class="widget-payment-request-product-info d-flex">
@@ -917,7 +917,7 @@
                                     <div class="card-body">
                                         <div class="widget-popular-product-container">
                                             <div class="widget-popular-product-image">
-                                                <img src="../assets/images/widgets/popular-product.jpeg" alt="">
+                                                <img src="{{asset('assets/admin/images/widgets/popular-product.jpeg')}}" alt="">
                                             </div>
                                             <div class="widget-popular-product-tags">
                                                 <span
@@ -1042,7 +1042,7 @@
                         <div class="row">
                             <div class="col-xl-4">
                                 <div class="card">
-                                    <img src="../assets/images/widgets/blog5.jpeg" class="card-img-top" alt="...">
+                                    <img src="{{asset('assets/admin/images/widgets/blog5.jpeg')}}" class="card-img-top" alt="...">
                                     <div class="card-body">
                                         <h5 class="card-title">The M1 Macbook Pro is Blazing Fast</h5>
                                         <p class="card-text">Pellentesque habitant morbi tristique senectus et.
@@ -1136,7 +1136,7 @@
                                     <div class="card-body">
                                         <div class="widget-info-container">
                                             <div class="widget-info-image"
-                                                style="background: url('../../assets/images/widgets/security.svg')">
+                                                style="background: url('{{asset('assets/admin/images/widgets/security.svg')}}')">
                                             </div>
                                             <h5 class="widget-info-title">Advanced Security</h5>
                                             <p class="widget-info-text m-t-n-xs">Nunc cursus tempor sapien, et mattis
@@ -1153,7 +1153,7 @@
                                     <div class="card-body">
                                         <div class="widget-popular-blog-container">
                                             <div class="widget-popular-blog-image">
-                                                <img src="../assets/images/widgets/product2.jpeg" alt="">
+                                                <img src="{{asset('assets/admin/images/widgets/product2.jpeg')}}" alt="">
                                             </div>
                                             <div class="widget-popular-blog-content ps-4">
                                                 <span class="widget-popular-blog-title">
@@ -1187,7 +1187,7 @@
                                         <div class="widget-connection-request-container d-flex">
                                             <div class="widget-connection-request-avatar">
                                                 <div class="avatar avatar-xl m-r-xs">
-                                                    <img src="../assets/images/avatars/avatar.png" alt="">
+                                                    <img src="{{asset('assets/admin/images/avatars/avatar.png')}}" alt="">
                                                 </div>
                                             </div>
                                             <div class="widget-connection-request-info flex-grow-1">
@@ -1218,15 +1218,16 @@
         </div>
     </div>
 
-    <!-- Javascripts -->
-    <script src="../assets/plugins/jquery/jquery-3.5.1.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/plugins/perfectscroll/perfect-scrollbar.min.js"></script>
-    <script src="../assets/plugins/pace/pace.min.js"></script>
-    <script src="../assets/plugins/apexcharts/apexcharts.min.js"></script>
-    <script src="../assets/js/main.min.js"></script>
-    <script src="../assets/js/custom.js"></script>
-    <script src="../assets/js/pages/dashboard.js"></script>
+    
+    <script src="{{ asset('assets/admin/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/plugins/perfectscroll/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/plugins/pace/pace.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/plugins/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/main.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/pages/dashboard.js') }}"></script>
+
 </body>
 
 </html>
