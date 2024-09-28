@@ -23,13 +23,15 @@ class CategoryFactory extends Factory
         return [
             //
             'name'=>$name,
-            'slug'=>Str::slug($name),
-            'description' => fake()->text,
+            'slug'=>Str::slug($name),    
             'status' => fake()->boolean,
             'feature_status' => fake()->boolean,
+            'description' => fake()->paragraph(2),
+            // 'parent_id'=> random_int(0,20),
             'order' => random_int(0,100),
             'seo_keywords' =>  Str::slug(fake()->address,", "),
-            'seo_description' =>  fake()->paragraph,
+            'seo_description' =>  fake()->text,
+            'user_id'=>random_int(1,10),
         ];
     }
 }

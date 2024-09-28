@@ -21,11 +21,16 @@ return new class extends Migration {
             $table->integer("order")->default(0);
             $table->string("seo_description")->nullable();
             $table->string("seo_keywords")->nullable();
+            $table->unsignedBigInteger("user_id");
             $table->timestamps();
 
             // foreign key alan parent_id'ye karşılık gelecek
             // referans id'den
-            $table->foreign("parent_id")->references("id")->on("categories")->onDelete("cascade");
+            $table->foreign("parent_id")->on("categories")->references("id")->onDelete("cascade");
+            // categories tablosunda oluşturduğumuz user_id, 
+            // users tablosundaki id sütunundaki id'ye denk gelecek
+            $table->foreign("user_id")->on("users")->references("id")->onDelete("cascade");
+
         });
     }
 

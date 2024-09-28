@@ -22,7 +22,7 @@ class ArticleFactory extends Factory
             //
             'category_id'=>random_int(1,10),
             'user_id'=>random_int(1,10),
-            'name'=>$name,
+            'title'=>$name,
             'slug'=>Str::slug($name),
             'body'=>fake()->paragraph,
             'status'=>fake()->boolean,
