@@ -21,6 +21,7 @@
     <link href="{{ asset('assets/admin/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/plugins/perfectscroll/perfect-scrollbar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/plugins/pace/pace.css') }}" rel="stylesheet">
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
 
 
@@ -61,7 +62,7 @@
         </div>
     </div>
 
-    @yield('js')
+   
 
     <script src="{{ asset('assets/admin/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -71,6 +72,10 @@
     <script src="{{ asset('assets/admin/js/main.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/custom.js') }}"></script>
     <script src="{{ asset('assets/admin/js/pages/dashboard.js') }}"></script>
+
+    @include('sweetalert::alert')
+    
+    @yield('js')
 
 </body>
 

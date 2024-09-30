@@ -27,7 +27,6 @@ Kategori Listele Sayfası
                 <th scope="col">Parent Category</th>
                 <th scope="col">Owner User</th>
                 <th scope="col">Actions</th>
-
             </x-slot:columns>
 
             <x-slot:rows>
@@ -38,16 +37,20 @@ Kategori Listele Sayfası
                     <td>{{ $category->slug}}</td>
                     <td>
                         @if ($category->status)
-                        Aktif
+                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
+                            class="btn btn-success btn-sm btnChangeStatus">Aktif</a>
                         @else
-                        Pasif
+                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
+                            class="btn btn-warning btn-sm btnChangeStatus">Pasif</a>
                         @endif
                     </td>
                     <td>
                         @if ($category->feature_status)
-                        Aktif
+                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
+                            class="btn btn-success btn-sm btnChangeFeatureStatus">Aktif</a>
                         @else
-                        Pasif
+                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
+                            class="btn btn-warning btn-sm btnChangeFeatureStatus">Pasif</a>
                         @endif
                     </td>
                     <td>{{ substr($category->description,0,20) }}</td>
@@ -56,8 +59,10 @@ Kategori Listele Sayfası
                     <td>{{ $category->user->name}}</td>
                     <td>
                         <div class="d-flex">
-                            <a href="" class="btn btn-warning btn-sm"><i class="material-icons ms-0">edit</i></a>
-                            <a href="" class="btn btn-danger btn-sm"><i class="material-icons ms-0">delete</i></a>
+                            <a href="javascript:void(0)" class="btn btn-warning btn-sm"><i
+                                    class="material-icons ms-0">edit</i></a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm"><i
+                                    class="material-icons ms-0">delete</i></a>
                         </div>
                     </td>
                 </tr>
@@ -70,8 +75,82 @@ Kategori Listele Sayfası
     </x-slot:body>
 </x-bootstrap.card>
 
+
+<form action="" method="POST" id="statusChangeForm">
+    @csrf
+    <input type="hidden" name="id" value="" id="inputStatus">
+</form>
 @endsection
 
 @section("js")
+<script>
+    // Sayfa hazır olduğunda yapılacak işlemler
+        $(document).ready(function(){
+            // btnChangeStatus tıklandığında
+            $('.btnChangeStatus').click(function(){
+                // idleri al
+                let categoryID = $(this).data('id');
+                $('#inputStatus').val(categoryID);
 
+                Swal.fire({
+                title: "Bilgi",
+                text:"Kategori Durumunu Değirtirmek İstiyor Musunuz ?",
+                icon:"info",
+                showDenyButton: true,
+                // showCancelButton: true,
+                confirmButtonText: "Değiştir",
+                denyButtonText: `Değiştirme`,
+                // cancelButtonText:'İptal Et'
+                }).then((result) => {
+                
+                    if (result.isConfirmed) {
+                        $('#statusChangeForm').attr("action","{{ route('categories.changeStatus') }}");
+                        $('#statusChangeForm').submit();
+
+
+                    } else if (result.isDenied) {
+                        Swal.fire({
+                            title: "Bilgi",
+                            text: "Değişiklik Yapılmadı.",
+                            confirmButtonText: "Tamam",
+                            icon:"info",
+                        });
+                    }
+                });
+            });
+
+            // btnChangeFeatureStatus tıklandığında
+            $('.btnChangeFeatureStatus').click(function(){
+                // idleri al
+                let categoryID = $(this).data('id');
+                $('#inputStatus').val(categoryID);
+
+                Swal.fire({
+                title: "Bilgi",
+                text:"Öne Çıkarma Durumunu (Feature Status) Değirtirmek İstiyor Musunuz ?",
+                icon:"info",
+                showDenyButton: true,
+                // showCancelButton: true,
+                confirmButtonText: "Değiştir",
+                denyButtonText: `Değiştirme`,
+                // cancelButtonText:'İptal Et'
+                }).then((result) => {
+                
+                    if (result.isConfirmed) {
+                        $('#statusChangeForm').attr("action","{{ route('categories.changeFeatureStatus') }}");
+                        $('#statusChangeForm').submit();
+
+
+                    } else if (result.isDenied) {
+                        Swal.fire({
+                            title: "Bilgi",
+                            text: "Değişiklik Yapılmadı.",
+                            confirmButtonText: "Tamam",
+                            icon:"info",
+                        });
+                    }
+                });
+            });
+        });
+</script>
 @endsection
