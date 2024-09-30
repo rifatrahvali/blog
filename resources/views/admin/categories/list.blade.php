@@ -119,7 +119,7 @@ Kategori Listele Sayfası
                 });
             });
 
-            // btnChangeFeatureStatus tıklandığında
+            // btnChangeFeatureStatus tıklandığında.
             $('.btnChangeFeatureStatus').click(function(){
                 // idleri al
                 let categoryID = $(this).data('id');
