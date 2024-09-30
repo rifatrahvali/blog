@@ -67,12 +67,13 @@ Kategori Listele Sayfası
                         </div>
                     </td>
                 </tr>
-
                 @endforeach
 
             </x-slot:rows>
         </x-bootstrap.table>
-
+        <div class="d-flex justify-content-center">
+            {{ $list->onEachSide(0)->links() }}
+        </div>
     </x-slot:body>
 </x-bootstrap.card>
 

@@ -10,7 +10,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with(["parentCategory:id,name", "user"])->orderBy("order", "desc")->get();
+        $categories = Category::with(["parentCategory:id,name", "user"])
+            ->orderBy("order", "desc")
+            ->paginate(perPage: 5)
+            ->onEachSide(0);
+            //->get();
+
+        //dd($categories);
 
         return view('admin.categories.list', ['list' => $categories]);
     }

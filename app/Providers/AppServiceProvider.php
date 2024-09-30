@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Varsayılan işlemler atayabiliyoruz
+        Paginator::useBootstrapFive();
+        // custom olarak kullanmakiçin default viev ile blade'i ekle
+        // Paginator::defaultView("");
     }
 }
