@@ -47,7 +47,6 @@ class CategoryController extends Controller
             'id' => ['required', 'integer', "exists:categories"],
         ]);
         $categoryID = $request->id;
-
         $category = Category::where("id", $categoryID)->first();
 
         $category->feature_status = !$category->feature_status;
@@ -61,6 +60,19 @@ class CategoryController extends Controller
         $toastTitle = $category->name . "feature status güncellendi.";
         toast($toastTitle,'success')->autoClose(3000);
         
+        return redirect()->route("category.index");
+    }
+
+    public function delete(Request $request) {
+
+        $request->validate([
+            'id' => ['required', 'integer', "exists:categories"],
+        ]);
+        $categoryID = $request->id;
+       Category::where("id", $categoryID)->delete();
+       
+       toast('Kategori Silindi','success')->autoClose(3000);
+
         return redirect()->route("category.index");
     }
 }

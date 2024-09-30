@@ -61,8 +61,9 @@ Kategori Listele Sayfası
                         <div class="d-flex">
                             <a href="javascript:void(0)" class="btn btn-warning btn-sm"><i
                                     class="material-icons ms-0">edit</i></a>
-                            <a href="javascript:void(0)" class="btn btn-danger btn-sm"><i
-                                    class="material-icons ms-0">delete</i></a>
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm btnDeleteCategory"
+                                data-name="{{ $category->name}}" data-id="{{ $category->id }}">
+                                <i class="material-icons ms-0">delete</i></a>
                         </div>
                     </td>
                 </tr>
@@ -151,6 +152,42 @@ Kategori Listele Sayfası
                     }
                 });
             });
+
+
+            $('.btnDeleteCategory').click(function(){
+                // idleri al
+                let categoryID = $(this).data('id');
+                let categoryName = $(this).data('name');
+                $('#inputStatus').val(categoryID);
+
+                Swal.fire({
+                title: "Bilgi",
+                text: categoryName + " Kategorisini Silmek İstiyor Musunuz ?",
+                icon:"info",
+                showDenyButton: true,
+                // showCancelButton: true,
+                confirmButtonText: "Değiştir",
+                denyButtonText: `Değiştirme`,
+                // cancelButtonText:'İptal Et'
+                }).then((result) => {
+                
+                    if (result.isConfirmed) {
+                        $('#statusChangeForm').attr("action","{{ route('categories.delete') }}");
+                        $('#statusChangeForm').submit();
+
+
+                    } else if (result.isDenied) {
+                        Swal.fire({
+                            title: "Bilgi",
+                            text: "Değişiklik Yapılmadı.",
+                            confirmButtonText: "Tamam",
+                            icon:"info",
+                        });
+                    }
+                });
+            });
+
+
         });
 </script>
 @endsection
