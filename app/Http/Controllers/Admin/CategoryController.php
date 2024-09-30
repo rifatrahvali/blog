@@ -40,7 +40,8 @@ class CategoryController extends Controller
         toast($toastTitle, 'success')->autoClose(3000);
 
         return redirect()->route("category.index");
-    } public function changeFeatureStatus(Request $request)
+    }
+    public function changeFeatureStatus(Request $request)
     {
 
         $request->validate([
@@ -56,24 +57,38 @@ class CategoryController extends Controller
         //     ->success('Güncelleme Başarılı', $category->name . "durumu güncellendi.")
         //     ->autoClose(5000)
         //     ->showConfirmButton("tamam","#3085d6");
-        
+
         $toastTitle = $category->name . "feature status güncellendi.";
-        toast($toastTitle,'success')->autoClose(3000);
-        
+        toast($toastTitle, 'success')->autoClose(3000);
+
         return redirect()->route("category.index");
     }
 
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
 
         $request->validate([
             'id' => ['required', 'integer', "exists:categories"],
         ]);
         $categoryID = $request->id;
-       Category::where("id", $categoryID)->delete();
-       
-       toast('Kategori Silindi','success')->autoClose(3000);
+        Category::where("id", $categoryID)->delete();
+
+        toast('Kategori Silindi', 'success')->autoClose(3000);
 
         return redirect()->route("category.index");
+    }
+
+    public function edit(Request $request)
+    {
+
+        $categoryID = $request->id;
+        $category = Category::where("id", $categoryID)->first();
+        if (is_null($category)) {
+            toast('Kategori Bulunamadı.', 'warning')->autoClose(3000);
+            return redirect()->route('category.index');
+
+        }
+        return view('admin.categories.create-update', compact('category'));
     }
 }
 

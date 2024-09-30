@@ -59,8 +59,8 @@ Kategori Listele Sayfası
                     <td>{{ $category->user->name}}</td>
                     <td>
                         <div class="d-flex">
-                            <a href="javascript:void(0)" class="btn btn-warning btn-sm"><i
-                                    class="material-icons ms-0">edit</i></a>
+                            <a href="{{ route('categories.edit',['id'=>$category->id]) }}"
+                                class="btn btn-warning btn-sm"><i class="material-icons ms-0">edit</i></a>
                             <a href="javascript:void(0)" class="btn btn-danger btn-sm btnDeleteCategory"
                                 data-name="{{ $category->name}}" data-id="{{ $category->id }}">
                                 <i class="material-icons ms-0">delete</i></a>
