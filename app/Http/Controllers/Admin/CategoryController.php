@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
         // tüm kagetorileri ve kullanıcıları getir
@@ -20,6 +20,7 @@ class CategoryController extends Controller
 
 
         $categories = Category::with(["parentCategory:id,name", "user"])
+            ->name($request->name) //scopeName
             ->orderBy("order", "desc")
             ->paginate(perPage: 5)
             ->onEachSide(0);

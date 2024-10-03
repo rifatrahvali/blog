@@ -18,6 +18,13 @@ class Category extends Model
     protected $casts = ['order'=>'string'];
     protected $hidden = ['created_at']; 
 
+    public function scopeName($query,$name){
+        //dd($name);
+        if (!is_null($name)) {
+            return $query->where('name','LIKE','%'.$name.'%');
+        }
+        
+    }
 
     public function parentCategory():HasOne{
         return $this->hasOne(Category::class,"id","parent_id");
