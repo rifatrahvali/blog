@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -10,7 +11,7 @@ class LoginController extends Controller
     function showLogin() {
         return view('auth.login');
     }
-    function login(Request $request) {
+    function login(LoginRequest $request) {
         dd($request->all());
         return view('auth.login');
     }

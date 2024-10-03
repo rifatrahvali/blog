@@ -19,6 +19,15 @@ Panel'e Giriş
             <a href="{{route('register')}}">Kayıt Ol</a>
         </p>
 
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                <div class="alert alert-danger alert-dismissible fade show m-b-sm" role="alert">
+                    {{ $error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endforeach
+        @endif
+
         <form action="{{ route('login')}}" method="post">
             @csrf
             <div class="auth-credentials m-b-xxl">

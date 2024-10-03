@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            // users tablosuna bakacak geçerli mail  var mı ?
+            "email" =>["email","exists:users","required"],
+            "password" => ["required"],
+        ];
+    }
+
+    public function messages(){
+        return [
+            'email.exists' => 'Email veya Parola Hatalıdır.',
+            'email.required' => 'Email zorunludur.',
+            'password.required' => 'Parola zorunludur.'
         ];
     }
 }
