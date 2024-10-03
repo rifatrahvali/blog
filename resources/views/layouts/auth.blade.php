@@ -34,11 +34,9 @@
 </head>
 
 <body>
-    <div class="app app-auth-sign-in align-content-stretch d-flex flex-wrap justify-content-end">
-        @yield('content')
 
-
-    </div>
+    @yield('content')
+    
 
     <!-- Javascripts -->
     <script src="{{asset('assets/plugins/jquery/jquery-3.5.1.min.js')}}"></script>
