@@ -12,10 +12,10 @@ Panel'e Giriş
 </div>
 <div class="app-auth-container">
     <div class="logo">
-        <a href="index.html">Panel Girişi</a>
+        <a href="index.html">Giriş</a>
     </div>
     <p class="auth-description">Panele erişebilmek için hesabınız ile oturum açın.<br>Hesabınız yok mu ? 
-        <a href="sign-up.html">Kayıt Ol</a>
+        <a href="{{route('register')}}">Kayıt Ol</a>
     </p>
 
     <div class="auth-credentials m-b-xxl">

@@ -26,9 +26,11 @@ Route::prefix('admin')->group(function () {
     Route::post('categories/delete', [CategoryController::class, 'delete'])->name('categories.delete');
     Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit')->whereNumber('id');
     Route::post('categories/{id}/edit', [CategoryController::class, 'update'])->whereNumber('id');
+    
     Route::get('login', [LoginController::class,'showLogin'])->name('login');
     Route::post('login', [LoginController::class,'login']);
 
-   
+    Route::get('register', [LoginController::class,'showRegister'])->name('register');
+    Route::post('register', [LoginController::class,'register']);
 });
 
