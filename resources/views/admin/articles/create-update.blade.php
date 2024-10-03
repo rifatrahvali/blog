@@ -24,7 +24,7 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
             <div class="example-content">
                 <form
                     action="{{ isset($article) ? route('article.edit',['id' => $article->id]) : route('article.create') }}"
-                    method="POST">
+                    method="POST" enctype="multipart/form-data">
                     {{-- NAME ALANI --}}
                     @csrf
                     <input type="text" class="form-control form-control-solid-bordered m-b-sm"
