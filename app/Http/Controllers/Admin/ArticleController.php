@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+
 
 class ArticleController extends Controller
 {
     public function index() {
-        return view('admin.articles.list');
+        
+        return view('admin.articles.list',);
     }
     public function create() {
-        return view('admin.articles.create-update');
+        $categories = Category::All();
+        return view('admin.articles.create-update',compact('categories'));
     }
 }

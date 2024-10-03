@@ -15,7 +15,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     })->name("admin.index");
     // admin/articles/
     Route::get('articles', [ArticleController::class, 'index'])->name('article.index');
-    // admin/articles/create
     Route::get('articles/create', [ArticleController::class, 'create'])->name('article.create');
     
     Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
