@@ -21,7 +21,15 @@ class Category extends Model
     public function scopeName($query,$name){
         //dd($name);
         if (!is_null($name)) {
-            return $query->where('name','LIKE','%'.$name.'%');
+            // return $query->where('name','LIKE','%'.$name.'%');
+            return $query->orWhere('name','LIKE','%'.$name.'%');
+        }
+        
+    }
+    public function scopeDescription($query,$description){
+
+        if (!is_null($description)) {
+            return $query->orWhere('description','LIKE','%'.$description.'%');
         }
         
     }

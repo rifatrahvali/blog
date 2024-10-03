@@ -135,7 +135,7 @@ Kategori Listele Sayfası
                             class="btn btn-warning btn-sm btnChangeFeatureStatus">Pasif</a>
                         @endif
                     </td>
-                    <td>{{ substr($category->description,0,20) }}</td>
+                    <td title="{{ $category->description }}">{{ substr($category->description,0,20) }}</td>
                     <td>{{ $category->order}}</td>
                     <td>{{ $category->parentCategory?->name}}</td>
                     <td>{{ $category->user->name}}</td>
