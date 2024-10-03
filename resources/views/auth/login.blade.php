@@ -33,7 +33,7 @@ Panel'e Giriş
             <div class="auth-credentials m-b-xxl">
                 <label for="signInEmail" class="form-label">Email</label>
                 <input type="email" class="form-control m-b-md" id="signInEmail" aria-describedby="signInEmail"
-                    placeholder="ornek@mailadresi.com" name="email">
+                    placeholder="ornek@mailadresi.com" name="email" value="{{ old('email') }}">
 
                 <label for="signInPassword" class="form-label">Parola</label>
                 <input type="password" class="form-control" id="signInPassword" aria-describedby="signInPassword"
@@ -42,7 +42,7 @@ Panel'e Giriş
             <div class="auth-credentials m-b-xxl">
                 <div class="form-check">
                     <label for="remember" class="form-check-label">Beni Hatırla</label>
-                    <input type="checkbox" class="form-check-input" value="1" name="remember" id="remember">
+                    <input type="checkbox" class="form-check-input" value="1" name="remember" id="remember" {{old("remember") ? "checked" : ""}}>
                 </div>
             </div>
             <div class="auth-submit">

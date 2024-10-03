@@ -12,7 +12,7 @@ Route::prefix('admin')->group(function () {
     // admin/
     Route::get('/', function () {
         return view('admin.index');
-    })->name("home");
+    })->name("admin.index");
     // admin/articles/
     Route::get('articles', [ArticleController::class, 'index'])->name('article.index');
     // admin/articles/create
@@ -26,11 +26,16 @@ Route::prefix('admin')->group(function () {
     Route::post('categories/delete', [CategoryController::class, 'delete'])->name('categories.delete');
     Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit')->whereNumber('id');
     Route::post('categories/{id}/edit', [CategoryController::class, 'update'])->whereNumber('id');
-    
-    Route::get('login', [LoginController::class,'showLogin'])->name('login');
-    Route::post('login', [LoginController::class,'login']);
 
-    Route::get('register', [LoginController::class,'showRegister'])->name('register');
-    Route::post('register', [LoginController::class,'register']);
+
 });
 
+Route::get('login', [LoginController::class,'showLogin'])->name('login');
+Route::post('login', [LoginController::class,'login']);
+
+Route::get('register', [LoginController::class,'showRegister'])->name('register');
+Route::post('register', [LoginController::class,'register']);
+
+Route::get('/', function () {
+    return view('admin.index');
+})->name("home");
