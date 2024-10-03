@@ -22,7 +22,8 @@ class CategoryController extends Controller
         // 'veya' kullanarak filtreleme yapacağız
         $categories = Category::with(["parentCategory:id,name", "user"])
             ->name($request->name) //scopeName - where
-            ->description($request->description) //scopeName - orWhere
+            ->description($request->description) //scopeDescription - orWhere
+            ->slug($request->slug) //scopeSlug - orWhere
             ->orderBy("order", "desc")
             ->paginate(perPage: 5)
             ->onEachSide(0);

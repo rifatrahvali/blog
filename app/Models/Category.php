@@ -18,6 +18,8 @@ class Category extends Model
     protected $casts = ['order'=>'string'];
     protected $hidden = ['created_at']; 
 
+
+    // ---------------------- FİLTRELEME İŞLEMLERİ ----------------------
     public function scopeName($query,$name){
         //dd($name);
         if (!is_null($name)) {
@@ -34,6 +36,18 @@ class Category extends Model
         
     }
 
+    public function scopeSlug($query,$slug){
+
+        if (!is_null($slug)) {
+            return $query->orWhere('slug','LIKE','%'.$slug.'%');
+        }
+        
+    }
+
+    // ---------------------- FİLTRELEME İŞLEMLERİ ----------------------
+
+
+    // ---------------------- HASONE İŞLEMLERİ ----------------------
     public function parentCategory():HasOne{
         return $this->hasOne(Category::class,"id","parent_id");
     }
@@ -42,4 +56,5 @@ class Category extends Model
         // User Tablosundaki id ile Categories tablosundaki user_id kolonunu
         return $this->hasOne(User::class,"id","user_id");
     }
+    // ---------------------- HASONE İŞLEMLERİ ----------------------
 }
