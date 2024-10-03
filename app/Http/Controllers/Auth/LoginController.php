@@ -25,18 +25,17 @@ class LoginController extends Controller
         !is_null($remember) ? $remember = true : $remember = false;
 
         $user = User::where('email', $email)->first();
-            
+
         if ($user && Hash::check($password, $user->password)) {
             Auth::login($user);
             return redirect()->route("admin.index");
-        }    
-        else {
+        } else {
             return redirect()
                 ->route("login")
                 ->withErrors([
-                    'email'=> "kullanıcı bulunamadı",
+                    'email' => "kullanıcı bulunamadı",
                 ])
-                ->onlyInput("email","remember");
+                ->onlyInput("email", "remember");
         }
     }
     function showRegister()
@@ -46,5 +45,16 @@ class LoginController extends Controller
     function register()
     {
         return view('auth.register');
+    }
+    function logout(Request $request)
+    {
+        if (Auth::check()) {
+            Auth::logout();
+        }
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

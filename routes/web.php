@@ -33,8 +33,12 @@ Route::prefix('admin')->group(function () {
 Route::get('login', [LoginController::class,'showLogin'])->name('login');
 Route::post('login', [LoginController::class,'login']);
 
+Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
 Route::get('register', [LoginController::class,'showRegister'])->name('register');
 Route::post('register', [LoginController::class,'register']);
+
+
 
 Route::get('/', function () {
     return view('admin.index');
