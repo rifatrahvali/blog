@@ -69,7 +69,7 @@
                     <li class="nav-item hidden-on-mobile">
                         <a class="nav-link" href="#">Projects</a>
                     </li>
-                    <li class="nav-item hidden-on-mobile">
+                    <li class="nav-item hidden-on-mobile mt-1">
 
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">

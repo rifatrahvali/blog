@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -12,15 +13,23 @@ class CategoryController extends Controller
 {
     public function index()
     {
+
+        // tüm kagetorileri ve kullanıcıları getir
+        $parentCategories = Category::All();
+        $users = User::All();
+
+
         $categories = Category::with(["parentCategory:id,name", "user"])
             ->orderBy("order", "desc")
             ->paginate(perPage: 5)
             ->onEachSide(0);
             //->get();
 
-        //dd($categories);
-
-        return view('admin.categories.list', ['list' => $categories]);
+        return view('admin.categories.list', [
+            'list' => $categories,
+            'users' => $users,
+            'parentCategories'=>$parentCategories
+        ]);
     }
     public function create()
     {

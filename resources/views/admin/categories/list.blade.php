@@ -5,7 +5,7 @@ Kategori Listele Sayfası
 @endsection
 
 @section("css")
-
+<link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
 @endsection
 
 @section("content")
@@ -15,6 +15,78 @@ Kategori Listele Sayfası
         Kategori Liste
     </x-slot:header>
     <x-slot:body>
+
+        <form action="">
+            <div class="">
+                <div class="row">
+                    <div class="col-3">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Adı">
+                    </div>
+                    <div class="col-3">
+                        <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug">
+                    </div>
+                    <div class="col-3">
+                        <input type="text" name="description" id="description" class="form-control"
+                            placeholder="Açıklama">
+                    </div>
+                    <div class="col-3">
+                        <input type="text" name="order" id="order" class="form-control" placeholder="Sıralaması">
+                    </div>
+                    <div class="col-3 mt-2">
+                        {{-- <select name="parent_id" id="parent_id" class="form-select">
+                            <option value{{null}}>Üst Kategori</option>
+                            @foreach ($parentCategories as $parent )
+                            <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                            @endforeach
+                        </select> --}}
+
+                        <select class="js-states form-control" name="parent_id" id="selectParentCategory" tabindex="-1" style="display: none; width: 100%">
+                            <option value{{null}}>Üst Kategori</option>
+                            @foreach ($parentCategories as $parent )
+                            <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                    <div class="col-3 mt-2">
+                        {{-- <select name="user_id" id="user_id" class="form-select">
+                            <option value{{null}}>Kullanıcılar</option>
+                            <option value="1">1</option>
+                            <option value="1">2</option>
+                            <option value="1">3</option>
+                        </select> --}}
+                        <select name="user_id" id="user_id" class="form-select">
+                            <option value{{null}}>Kullanıcılar</option>
+                            @foreach ($users as $user )
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-3 mt-2">
+                        <select name="status" id="status" class="form-select" aria-label="Durumu">
+                            <option value{{null}}>Durumu</option>
+                            <option value="1">Aktif</option>
+                            <option value="0">Pasif</option>
+                        </select>
+                    </div>
+                    <div class="col-3 mt-2">
+                        <select name="feature_status" id="feature_status" class="form-select" aria-label="Öne çıkanlar">
+                            <option selected>Öne Çıkanlar</option>
+                            <option value="1">Aktif</option>
+                            <option value="0">Pasif</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <hr class="mt-2">
+                    <div class="mb-3 d-flex">
+                        <button class="btn btn-primary w-100 me-4" type="submit">Filtrele</button>
+                        <button class="btn btn-warning w-100" type="submit">Temizle</button>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </form>
 
         <x-bootstrap.table :class="'table-striped table-hover'" :is-responsive="1">
             <x-slot:columns>
@@ -85,6 +157,8 @@ Kategori Listele Sayfası
 @endsection
 
 @section("js")
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/select2.js') }}"></script>
 <script>
     // Sayfa hazır olduğunda yapılacak işlemler
         $(document).ready(function(){
@@ -188,7 +262,7 @@ Kategori Listele Sayfası
                 });
             });
 
-
+            $('#selectParentCategory').select2();
         });
 </script>
 @endsection
