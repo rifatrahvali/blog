@@ -18,52 +18,66 @@ class CategoryController extends Controller
         $parentCategories = Category::All();
         $users = User::All();
 
+        $parentID = $request->parent_id;
+        $userID = $request->user_id;
 
         // 'veya' kullanarak filtreleme yapacağız
         $categories = Category::with(["parentCategory:id,name", "user"])
+            // ->where(function ($query) use ($parentID,$userID) {
+            //     if(!is_null($parentID)){
+            //         $query
+            //         ->where('parent_id',$parentID);
+            //     }
+            //     if(!is_null($userID)){
+            //         $query
+            //         ->where('parent_id',$userID);
+            //     }
+            // })
             ->name($request->name) //scopeName - where
             ->description($request->description) //scopeDescription - orWhere
             ->slug($request->slug) //scopeSlug - orWhere
             ->order($request->order) //scopeOrder - orWhere
             ->status($request->status) //scopeStatus - orWhere
             ->featureStatus($request->feature_status) //scopeStatus - orWhere
+            ->user($request->user_id) //scopeStatus - orWhere
+            ->parentCategory($request->parent_id) //scopeStatus - orWhere
             ->orderBy("order", "desc")
             ->paginate(perPage: 5)
             ->onEachSide(0);
-            //->get();
+        //->get();
 
         return view('admin.categories.list', [
             'list' => $categories,
             'users' => $users,
-            'parentCategories'=>$parentCategories
+            'parentCategories' => $parentCategories
         ]);
     }
     public function create()
     {
         $categories = Category::all();
-        return view('admin.categories.create-update',compact('categories'));
+        return view('admin.categories.create-update', compact('categories'));
     }
 
     public function store(CategoryStoreRequest $request)
     {
-        $slugCheck = Category::where("slug",$request->slug)->first();
+        $slugCheck = Category::where("slug", $request->slug)->first();
 
-        try{
+        try {
             $category = new Category();
             $category->name = $request->name;
-            $category->slug = is_null($slugCheck) ? Str::slug($request->slug) : Str::slug($request->slug.time()) ;
+            $category->slug = is_null($slugCheck) ? Str::slug($request->slug) : Str::slug($request->slug . time());
             $category->description = $request->description;
             $category->status = $request->status ? 1 : 0;
             $category->feature_status = $request->feature_status ? 1 : 0;
             $category->parent_id = $request->parent_id;
             $category->seo_keywords = $request->seo_keywords;
             $category->seo_description = $request->seo_description;
-            $category->user_id = random_int(1,9);
+            $category->user_id = random_int(1, 9);
             $category->order = $request->order;
             $category->save();
-    
-        }catch(\Exception $exception){
-            abort(404,$exception->getMessage());
+
+        } catch (\Exception $exception) {
+            abort(404, $exception->getMessage());
         }
 
         toast("Kategori Eklendi.", 'success')->autoClose(3000);
@@ -143,23 +157,23 @@ class CategoryController extends Controller
             return redirect()->route('category.index');
 
         }
-        return view('admin.categories.create-update', compact('category','categories'));
+        return view('admin.categories.create-update', compact('category', 'categories'));
     }
 
-    public function update(CategoryStoreRequest $request){
-        
+    public function update(CategoryStoreRequest $request)
+    {
+
         $slug = Str::slug($request->slug);
-        $slugCheck = Category::where("slug",$request->slug)->first();
+        $slugCheck = Category::where("slug", $request->slug)->first();
 
         $category = Category::find($request->id);
         $category->name = $request->name;
-        if((!is_null($slugCheck) && $slugCheck->id == $category->id)|| is_null($slugCheck)){
+        if ((!is_null($slugCheck) && $slugCheck->id == $category->id) || is_null($slugCheck)) {
             $category->slug = $slug;
-        }else if(!is_null($slugCheck) && $slugCheck->id != $category->id){
-            $category->slug = Str::slug($slug.time());
-        }
-        else{
-            $category->slug = Str::slug($slug.time());
+        } else if (!is_null($slugCheck) && $slugCheck->id != $category->id) {
+            $category->slug = Str::slug($slug . time());
+        } else {
+            $category->slug = Str::slug($slug . time());
         }
         $category->description = $request->description;
         $category->status = $request->status ? 1 : 0;

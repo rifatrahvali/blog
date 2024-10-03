@@ -75,15 +75,15 @@ Kategori Listele Sayfası
                     <div class="col-3 mt-2">
                         <select name="status" id="status" class="form-select" aria-label="Durumu">
                             <option value="{{ null }}">Durumu</option>
-                            <option value="1" {{ request()->get('status') == 1 ? "selected" : "" }}>Aktif</option>
-                            <option value="0" {{ request()->get('status') == 0 ? "selected" : "" }}>Pasif</option>
+                            <option value="1" {{ request()->get('status') === "1" ? "selected" : "" }}>Aktif</option>
+                            <option value="0" {{ request()->get('status') === "0" ? "selected" : "" }}>Pasif</option>
                         </select>
                     </div>
                     <div class="col-3 mt-2">
                         <select name="feature_status" id="feature_status" class="form-select" aria-label="Durumu">
                             <option value="{{ null }}">Öne Çıkanlar</option>
-                            <option value="1" {{ request()->get('feature_status') == 1 ? "selected" : "" }}>Aktif</option>
-                            <option value="0" {{ request()->get('feature_status') == 0 ? "selected" : "" }}>Pasif</option>
+                            <option value="1" {{ request()->get('feature_status') === "1" ? "selected" : "" }}>Aktif</option>
+                            <option value="0" {{ request()->get('feature_status') === "0" ? "selected" : "" }}>Pasif</option>
                         </select>
                     </div>
                 </div>
