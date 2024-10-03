@@ -27,9 +27,59 @@ class LoginController extends Controller
         $user = User::where('email', $email)->first();
 
         if ($user && Hash::check($password, $user->password)) {
-            Auth::login($user);
+
+            // kullanıcı login olduğu sırada remember'ı da yolluyoruz.
+            Auth::login($user,$remember);
             return redirect()->route("admin.index");
+            // veya durum kontrol burada olur
+            // return redirect()->where('status',1)->where('isAdmin',1)->route("admin.index");
+
         } else {
+            return redirect()
+                ->route("login")
+                ->withErrors([
+                    'email' => "kullanıcı bulunamadı",
+                ])
+                ->onlyInput("email", "remember");
+        }
+    }
+
+    public function login2(LoginRequest $request){
+        $email = $request->email;
+        $password = $request->password;
+        $remember = $request->remember;
+        !is_null($remember) ? $remember = true : $remember = false;
+
+        if(Auth::attempt(['email'=>$email,'password'=>$password],$remember )){
+            // user login oldu
+
+            // session değiştirelim
+            return redirect()->route("admin.index");
+        }else {
+            return redirect()
+                ->route("login")
+                ->withErrors([
+                    'email' => "kullanıcı bulunamadı",
+                ])
+                ->onlyInput("email", "remember");
+        }
+    }
+
+    public function login3(LoginRequest $request){
+        $email = $request->email;
+        $password = $request->password;
+        $remember = $request->remember;
+        !is_null($remember) ? $remember = true : $remember = false;
+
+        // kullanıcı tablosunda status'u 1 olanları login yap.
+        // aktiflik ve adminlik durum kontrolü yaptırırız
+        if(Auth::attempt(['email'=>$email,'password'=>$password,'status'=>1],$remember )){
+            // user login oldu
+
+            // session değiştirelim
+            
+            return redirect()->route("admin.index");
+        }else {
             return redirect()
                 ->route("login")
                 ->withErrors([
