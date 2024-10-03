@@ -15,24 +15,32 @@ Panel'e Giriş
         <div class="logo">
             <a href="index.html">Giriş</a>
         </div>
-        <p class="auth-description">Panele erişebilmek için hesabınız ile oturum açın.<br>Hesabınız yok mu ? 
+        <p class="auth-description">Panele erişebilmek için hesabınız ile oturum açın.<br>Hesabınız yok mu ?
             <a href="{{route('register')}}">Kayıt Ol</a>
         </p>
-    
-        <div class="auth-credentials m-b-xxl">
-            <label for="signInEmail" class="form-label">Email</label>
-            <input type="email" class="form-control m-b-md" id="signInEmail" aria-describedby="signInEmail"
-                placeholder="example@neptune.com">
-    
-            <label for="signInPassword" class="form-label">Parola</label>
-            <input type="password" class="form-control" id="signInPassword" aria-describedby="signInPassword"
-                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
-        </div>
-    
-        <div class="auth-submit">
-            <a href="#" class="btn btn-primary">Giriş</a>
-            <a href="#" class="auth-forgot-password float-end">Parolamı unuttum</a>
-        </div>
+
+        <form action="{{ route('login')}}" method="post">
+            @csrf
+            <div class="auth-credentials m-b-xxl">
+                <label for="signInEmail" class="form-label">Email</label>
+                <input type="email" class="form-control m-b-md" id="signInEmail" aria-describedby="signInEmail"
+                    placeholder="ornek@mailadresi.com" name="email">
+
+                <label for="signInPassword" class="form-label">Parola</label>
+                <input type="password" class="form-control" id="signInPassword" aria-describedby="signInPassword"
+                    placeholder="Parola" name="password">
+            </div>
+            <div class="auth-credentials m-b-xxl">
+                <div class="form-check">
+                    <label for="remember" class="form-check-label">Beni Hatırla</label>
+                    <input type="checkbox" class="form-check-input" value="1" name="remember" id="remember">
+                </div>
+            </div>
+            <div class="auth-submit">
+                <button class="btn btn-primary" type="submit">Giriş</button>
+                <a href="#" class="auth-forgot-password float-end">Parolamı unuttum</a>
+            </div>
+        </form>
         <div class="divider"></div>
         <div class="auth-alts">
             <a href="#" class="auth-alts-google"></a>
