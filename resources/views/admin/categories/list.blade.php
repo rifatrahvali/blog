@@ -65,8 +65,8 @@ Kategori Listele Sayfası
                         <select name="user_id" id="user_id" class="form-select">
                             <option value="{{ null }}">Kullanıcılar</option>
                             @foreach ($users as $user )
-                            <option value="{{ $user->id }}" 
-                                {{ request()->get('user_id') == $user->id ? "selected" : "" }}>
+                            <option value="{{ $user->id }}" {{ request()->get('user_id') == $user->id ? "selected" : ""
+                                }}>
                                 {{ $user->name }}
                             </option>
                             @endforeach
@@ -82,8 +82,10 @@ Kategori Listele Sayfası
                     <div class="col-3 mt-2">
                         <select name="feature_status" id="feature_status" class="form-select" aria-label="Durumu">
                             <option value="{{ null }}">Öne Çıkanlar</option>
-                            <option value="1" {{ request()->get('feature_status') === "1" ? "selected" : "" }}>Aktif</option>
-                            <option value="0" {{ request()->get('feature_status') === "0" ? "selected" : "" }}>Pasif</option>
+                            <option value="1" {{ request()->get('feature_status') === "1" ? "selected" : "" }}>Aktif
+                            </option>
+                            <option value="0" {{ request()->get('feature_status') === "0" ? "selected" : "" }}>Pasif
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -154,7 +156,10 @@ Kategori Listele Sayfası
             </x-slot:rows>
         </x-bootstrap.table>
         <div class="d-flex justify-content-center">
-            {{ $list->onEachSide(0)->links() }}
+
+            {{-- {{ $list->onEachSide(0)->links() }} --}}
+            {{-- filtreleme yapıldığında pagination sayfalar arasında geçiş yaparken filtre gitmemesi için append kullanıyoruz --}}
+            {{ $list->appends(request()->all())->onEachSide(0)->links() }}
         </div>
     </x-slot:body>
 </x-bootstrap.card>
