@@ -20,17 +20,20 @@ Kategori Listele Sayfası
             <div class="">
                 <div class="row">
                     <div class="col-3">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Adı">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Adı"
+                            value="{{ request()->get('name') }}">
                     </div>
                     <div class="col-3">
-                        <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug">
+                        <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug"
+                            value="{{ request()->get('slug') }}">
                     </div>
                     <div class="col-3">
                         <input type="text" name="description" id="description" class="form-control"
-                            placeholder="Açıklama">
+                            placeholder="Açıklama" value="{{ request()->get('description') }}">
                     </div>
                     <div class="col-3">
-                        <input type="text" name="order" id="order" class="form-control" placeholder="Sıralaması">
+                        <input type="text" name="order" id="order" class="form-control" placeholder="Sıralaması"
+                            value="{{ request()->get('order') }}">
                     </div>
                     <div class="col-3 mt-2">
                         {{-- <select name="parent_id" id="parent_id" class="form-select">
@@ -40,10 +43,14 @@ Kategori Listele Sayfası
                             @endforeach
                         </select> --}}
 
-                        <select class="js-states form-control" name="parent_id" id="selectParentCategory" tabindex="-1" style="display: none; width: 100%">
-                            <option value{{null}}>Üst Kategori</option>
+                        <select class="js-states form-control" name="parent_id" id="selectParentCategory" tabindex="-1"
+                            style="display: none; width: 100%">
+                            <option value="{{ null }}">Üst Kategori</option>
                             @foreach ($parentCategories as $parent )
-                            <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                            <option value="{{ $parent->id }}" {{ request()->get('parent_id') == $parent->id ? "selected"
+                                : "" }}>
+                                {{ $parent->name }}
+                            </option>
                             @endforeach
 
                         </select>
@@ -56,24 +63,27 @@ Kategori Listele Sayfası
                             <option value="1">3</option>
                         </select> --}}
                         <select name="user_id" id="user_id" class="form-select">
-                            <option value{{null}}>Kullanıcılar</option>
+                            <option value="{{ null }}">Kullanıcılar</option>
                             @foreach ($users as $user )
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" 
+                                {{ request()->get('user_id') == $user->id ? "selected" : "" }}>
+                                {{ $user->name }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-3 mt-2">
                         <select name="status" id="status" class="form-select" aria-label="Durumu">
-                            <option value{{null}}>Durumu</option>
-                            <option value="1">Aktif</option>
-                            <option value="0">Pasif</option>
+                            <option value="{{ null }}">Durumu</option>
+                            <option value="1" {{ request()->get('status') == 1 ? "selected" : "" }}>Aktif</option>
+                            <option value="0" {{ request()->get('status') == 0 ? "selected" : "" }}>Pasif</option>
                         </select>
                     </div>
                     <div class="col-3 mt-2">
-                        <select name="feature_status" id="feature_status" class="form-select" aria-label="Öne çıkanlar">
-                            <option selected>Öne Çıkanlar</option>
-                            <option value="1">Aktif</option>
-                            <option value="0">Pasif</option>
+                        <select name="feature_status" id="feature_status" class="form-select" aria-label="Durumu">
+                            <option value="{{ null }}">Öne Çıkanlar</option>
+                            <option value="1" {{ request()->get('feature_status') == 1 ? "selected" : "" }}>Aktif</option>
+                            <option value="0" {{ request()->get('feature_status') == 0 ? "selected" : "" }}>Pasif</option>
                         </select>
                     </div>
                 </div>
