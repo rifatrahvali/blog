@@ -24,14 +24,14 @@ class Category extends Model
         //dd($name);
         if (!is_null($name)) {
             // return $query->where('name','LIKE','%'.$name.'%');
-            return $query->orWhere('name','LIKE','%'.$name.'%');
+            return $query->where('name','LIKE','%'.$name.'%');
         }
         
     }
     public function scopeDescription($query,$description){
 
         if (!is_null($description)) {
-            return $query->orWhere('description','LIKE','%'.$description.'%');
+            return $query->where('description','LIKE','%'.$description.'%');
         }
         
     }
@@ -39,7 +39,28 @@ class Category extends Model
     public function scopeSlug($query,$slug){
 
         if (!is_null($slug)) {
-            return $query->orWhere('slug','LIKE','%'.$slug.'%');
+            return $query->where('slug','LIKE','%'.$slug.'%');
+        }
+        
+    }
+    public function scopeOrder($query,$order){
+
+        if (!is_null($order)) {
+            return $query->where('order','LIKE','%'.$order.'%');
+        }
+        
+    }
+    public function scopeStatus($query,$status){
+
+        if (!is_null($status)) {
+            return $query->where('status','LIKE','%'.$status.'%');
+        }
+        
+    }
+    public function scopeFeatureStatus($query,$feature_status){
+
+        if (!is_null($feature_status)) {
+            return $query->where('feature_status','LIKE','%'.$feature_status.'%');
         }
         
     }

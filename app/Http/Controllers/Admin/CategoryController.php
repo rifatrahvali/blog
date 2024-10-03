@@ -24,6 +24,9 @@ class CategoryController extends Controller
             ->name($request->name) //scopeName - where
             ->description($request->description) //scopeDescription - orWhere
             ->slug($request->slug) //scopeSlug - orWhere
+            ->order($request->order) //scopeOrder - orWhere
+            ->status($request->status) //scopeStatus - orWhere
+            ->featureStatus($request->feature_status) //scopeStatus - orWhere
             ->orderBy("order", "desc")
             ->paginate(perPage: 5)
             ->onEachSide(0);
