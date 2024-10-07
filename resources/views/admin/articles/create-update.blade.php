@@ -76,18 +76,19 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
 
                     {{-- SEO KELİME ALANI --}}
                     <div class="form-text mt-3" id="seo_keywords">SEO Kelimeleri</div>
-                    <textarea class="form-control form-control-solid-bordered  m-b-sm" id="seo_keywords"
-                        name="seo_keywords" rows="1" style="resize: none">{{ isset($article) ? $article->seo_keywords : "" }}
-                    </textarea>
+                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                        placeholder="Makale için kelimeleri" name="seo_keywords" id="seo_keywords"
+                        value="{{ isset($article) ? $article->seo_keywords : "" }}">
+                
 
                     {{-- SEO KELİME AÇIKLAMALARI ALANI --}}
                     <div class="form-text mt-3" id="seo_description">SEO Açıklamaları</div>
-                    <textarea class="form-control form-control-solid-bordered m-b-sm" id="seo_description"
-                        name="seo_description" rows="1" style="resize: none">
-                        {{ isset($article) ? $article->seo_description : "" }}
-                    </textarea>
+                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                        placeholder="Makale için seo açıklaması" name="seo_description" id="seo_description"
+                        value="{{ isset($article) ? $article->seo_description : "" }}">
 
                     {{-- YAYINLANMA TARİHİ ALANI --}}
+                    <div class="form-text mt-3" id="publish_date">Yayınlanmasını istediğiniz tarihi seçin.</div>
                     <input type="text" class="form-control flatpickr2 form-control-solid-bordered m-b-sm"
                         id="publish_date" name="publish_date" placeholder="Makale Yayın Tarihini Seçin">
 
