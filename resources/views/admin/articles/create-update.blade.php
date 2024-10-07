@@ -23,10 +23,12 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
         <div class="example-container">
             <div class="example-content">
                 <form
-                    action="{{ isset($article) ? route('article.edit',['id' => $article->id]) : route('article.create') }}"
+                    action="{{ isset($article) ? route('article.edit', ['id' => $article->id]) : route('article.store') }}"
                     method="POST" enctype="multipart/form-data">
-                    {{-- NAME ALANI --}}
                     @csrf
+
+
+                    {{-- NAME ALANI --}}
                     <input type="text" class="form-control form-control-solid-bordered m-b-sm"
                         aria-describedby="solidBoderedInputExample" placeholder="Makale Başlığı" name="title"
                         value="{{ isset($article) ? $article->title : "" }}" required>
@@ -55,22 +57,22 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
                     </select>
 
                     {{-- BODY - İÇERİK ALANI --}}
-                    {{-- <div id="summernote" class="form-control form-control-solid-bordered m-b-sm mt-3" name="body">Hello Summernote</div> --}}
-
                     <div class="card mt-3">
                         <div class="form-text mt-3">Makale İçeriği</div>
-                        <div id="summernote" class="form-control form-control-solid-bordered m-b-sm" name="body">Hello Summernote</div>
+                        {{-- <div id="summernote" class="form-control form-control-solid-bordered m-b-sm" name="body">
+                            Hello
+                            Summernote</div> --}}
+                        <textarea id="summernote" name="body" class="form-control form-control-solid-bordered m-b-sm">
+                                {{ isset($article) ? $article->body : "" }}
+                            </textarea>
                     </div>
 
                     {{-- ETİKET EKLEME ALANI --}}
                     <div class="form-text mt-3" id="tags">Herbir etiketi virgül ile ayırın.</div>
-                    <input type="text" 
-                        class="form-control form-control-solid-bordered m-b-sm"
-                        placeholder="Makale için etiket belirt" 
-                        name="tags" 
-                        id="tags"
+                    <input type="text" class="form-control form-control-solid-bordered m-b-sm"
+                        placeholder="Makale için etiket belirt" name="tags" id="tags"
                         value="{{ isset($article) ? $article->tags : "" }}">
-                    
+
 
                     {{-- SEO KELİME ALANI --}}
                     <div class="form-text mt-3" id="seo_keywords">SEO Kelimeleri</div>
@@ -86,15 +88,18 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
                     </textarea>
 
                     {{-- YAYINLANMA TARİHİ ALANI --}}
-                    <input type="text" 
-                        class="form-control flatpickr2 form-control-solid-bordered m-b-sm" 
-                        id="publish_date" 
-                        name="publish_date" 
-                        placeholder="Makale Yayın Tarihini Seçin">
+                    <input type="text" class="form-control flatpickr2 form-control-solid-bordered m-b-sm"
+                        id="publish_date" name="publish_date" placeholder="Makale Yayın Tarihini Seçin">
 
                     {{-- MAKALE GÖRSELİ ALANI --}}
                     <div class="form-text mt-3" id="image">Makaleniz için görsel ekleyin.</div>
-                    <input type="file" class="form-control form-control-solid-bordered m-b-sm" name="image" id="image" accept="image/png, image/jpg, image/jpeg">
+                    <input type="file" class="form-control form-control-solid-bordered m-b-sm" name="image" id="image"
+                        accept="image/png, image/jpg, image/jpeg">
+
+                    @if (@isset($article) && $article->image)
+                    <img src="{{ asset($article->image) }}" alt="" class="img-fluid" srcset=""
+                        style="max-height: 200px;">
+                    @endif
 
                     {{-- MAKALE DURUMU ALANI --}}
                     <div class="form-check">
