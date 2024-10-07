@@ -79,7 +79,7 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
                     <input type="text" class="form-control form-control-solid-bordered m-b-sm"
                         placeholder="Makale için kelimeleri" name="seo_keywords" id="seo_keywords"
                         value="{{ isset($article) ? $article->seo_keywords : "" }}">
-                
+
 
                     {{-- SEO KELİME AÇIKLAMALARI ALANI --}}
                     <div class="form-text mt-3" id="seo_description">SEO Açıklamaları</div>
@@ -96,7 +96,13 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
                     <div class="form-text mt-3" id="image">Makaleniz için görsel ekleyin.</div>
                     <input type="file" class="form-control form-control-solid-bordered m-b-sm" name="image" id="image"
                         accept="image/png, image/jpg, image/jpeg">
-
+                    @if ($errors->has('image'))
+                    <div class="alert alert-danger alert-dismissible fade show m-b-sm" role="alert">
+                        {{ $errors->first('image') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endif
+                    
                     @if (@isset($article) && $article->image)
                     <img src="{{ asset($article->image) }}" alt="" class="img-fluid" srcset=""
                         style="max-height: 200px;">
