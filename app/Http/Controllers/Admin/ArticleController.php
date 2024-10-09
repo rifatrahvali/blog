@@ -93,6 +93,12 @@ class ArticleController extends Controller
         return redirect()->back();
     }
 
+    public function edit(Request $request,int $articleID)
+    {
+        $article = Article::find($articleID);
+    }
+
+
     // slug check
     public function slugCheck(string $text)
     {
