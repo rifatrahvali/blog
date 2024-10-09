@@ -6,6 +6,7 @@ Makale Listele Sayfası
 
 @section("css")
 <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/flatpickr/flatpickr.min.css') }}">
 @endsection
 
 @section("content")
@@ -19,14 +20,9 @@ Makale Listele Sayfası
         <form action="">
             <div class="row">
                 <div class="col-3">
-                    <select name="feature_status" id="feature_status" class="form-select" aria-label="Durumu">
-                        <option value="{{ null }}">Öne Çıkanlar</option>
-                        <option value="1" {{ request()->get('feature_status') === "1" ? "selected" : "" }}>Aktif
-                        </option>
-                        <option value="0" {{ request()->get('feature_status') === "0" ? "selected" : "" }}>Pasif
-                        </option>
-                    </select>
-                    
+                    <input type="text" class="form-control flatpickr2 form-control-solid-bordered m-b-sm"
+                        id="publish_date" name="publish_date" placeholder="Makale Yayın Tarihini Seçin"
+                        value="{{ request()->get('publish_date') }}">
                 </div>
                 <div class="col-3">
                     <select class="js-states form-control" name="category_id" id="selectParentCategory" tabindex="-1"
@@ -68,44 +64,28 @@ Makale Listele Sayfası
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" 
-                                        class="form-control"
-                                        placeholder="Minimum View Count"
-                                        name="min_view_count" 
-                                        id="min_view_count"
-                                        value="{{ request()->get('min_view_count') }}"
-                                    >
+                                    <input type="number" class="form-control" placeholder="Minimum View Count"
+                                        name="min_view_count" id="min_view_count"
+                                        value="{{ request()->get('min_view_count') }}">
                                 </div>
                                 <div class="col-6">
-                                    <input type="number"
-                                        class="form-control" 
-                                        placeholder="Maximum View Count"
-                                        name="max_view_count" 
-                                        id="max_view_count"
-                                        value="{{ request()->get('max_view_count') }}"
-                                    >
+                                    <input type="number" class="form-control" placeholder="Maximum View Count"
+                                        name="max_view_count" id="max_view_count"
+                                        value="{{ request()->get('max_view_count') }}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" 
-                                        class="form-control"
-                                        placeholder="Minimum Like Count"
-                                        name="min_like_count" 
-                                        id="min_like_count"
-                                        value="{{ request()->get('min_like_count') }}"
-                                    >
+                                    <input type="number" class="form-control" placeholder="Minimum Like Count"
+                                        name="min_like_count" id="min_like_count"
+                                        value="{{ request()->get('min_like_count') }}">
                                 </div>
                                 <div class="col-6">
-                                    <input type="number"
-                                        class="form-control" 
-                                        placeholder="Maximum Like Count"
-                                        name="max_like_count" 
-                                        id="max_like_count"
-                                        value="{{ request()->get('max_like_count') }}"
-                                    >
+                                    <input type="number" class="form-control" placeholder="Maximum Like Count"
+                                        name="max_like_count" id="max_like_count"
+                                        value="{{ request()->get('max_like_count') }}">
                                 </div>
                             </div>
                         </div>
@@ -137,43 +117,51 @@ Makale Listele Sayfası
             </x-slot:columns>
 
             <x-slot:rows>
-                @foreach ($list as $category)
-                {{-- gelen list değişkenindeki verileri category category dön --}}
-                {{-- <tr>
-                    <td>{{ $category->name}}</td>
-                    <td>{{ $category->slug}}</td>
+                @foreach ($list as $article)
+
+                <tr>
                     <td>
-                        @if ($category->status)
-                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
-                            class="btn btn-success btn-sm btnChangeStatus">Aktif</a>
-                        @else
-                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
-                            class="btn btn-warning btn-sm btnChangeStatus">Pasif</a>
+                        @if (!empty($article->image))
+                        <img src="{{ asset($article->image) }}" height="100" class="img-fluid">
                         @endif
                     </td>
+                    <td>{{ $article->title }}</td>
+                    <td>{{ $article->slug }}</td>
                     <td>
-                        @if ($category->feature_status)
-                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
-                            class="btn btn-success btn-sm btnChangeFeatureStatus">Aktif</a>
+                        @if ($article->status)
+                        <a href="javascript:void(0)" class="btn btn-success btn-sm btnChangeStatus"
+                            data-id="{{ $article->id }}">Aktif</a>
                         @else
-                        <a href="javascript:void(0)" data-id="{{ $category->id }}"
-                            class="btn btn-warning btn-sm btnChangeFeatureStatus">Pasif</a>
+                        <a href="javascript:void(0)" class="btn btn-danger btn-sm btnChangeStatus"
+                            data-id="{{ $article->id }}">Pasif</a>
                         @endif
                     </td>
-                    <td title="{{ $category->description }}">{{ substr($category->description,0,20) }}</td>
-                    <td>{{ $category->order}}</td>
-                    <td>{{ $category->parentCategory?->name}}</td>
-                    <td>{{ $category->user->name}}</td>
+                    {{-- popovers ile üzerine gelince card ile yapabiliriz. --}}
+                    <td>
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                            data-bs-title="{{ substr($article->body,0,255) }}">
+                            {{ substr($article->body,0,25) }}
+                        </span>
+                    </td>
+                    <td>{{ $article->tags }}</td>
+                    <td>{{ $article->view_count }}</td>
+                    <td>{{ $article->like_count }}</td>
+                    <td>{{ $article->category->name }}</td>
+                    <td>{{ $article->user->name }}</td>
                     <td>
                         <div class="d-flex">
-                            <a href="{{ route('categories.edit',['id'=>$category->id]) }}"
-                                class="btn btn-warning btn-sm"><i class="material-icons ms-0">edit</i></a>
+                            <a href="javascript:void(0)"
+                                class="btn btn-warning btn-sm">
+                                <i class="material-icons ms-0">edit</i>
+                            </a>
                             <a href="javascript:void(0)" class="btn btn-danger btn-sm btnDeleteCategory"
-                                data-name="{{ $category->name}}" data-id="{{ $category->id }}">
-                                <i class="material-icons ms-0">delete</i></a>
+                                data-name="{{ $article->title}}" data-id="{{ $article->id }}">
+                                <i class="material-icons ms-0">delete</i>
+                            </a>
                         </div>
                     </td>
-                </tr> --}}
+                </tr>
+
                 @endforeach
 
             </x-slot:rows>
@@ -198,18 +186,23 @@ Makale Listele Sayfası
 @section("js")
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/pages/select2.js') }}"></script>
+<script src="{{ asset('assets/js/pages/datepickers.js') }}"></script>
+<script src="{{ asset('assets/plugins/flatpickr/flatpickr.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/bootstrap/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
 <script>
     // Sayfa hazır olduğunda yapılacak işlemler
         $(document).ready(function(){
             // btnChangeStatus tıklandığında
             $('.btnChangeStatus').click(function(){
                 // idleri al
-                let categoryID = $(this).data('id');
-                $('#inputStatus').val(categoryID);
+                let articleID = $(this).data('id');
+                $('#inputStatus').val(articleID);
 
                 Swal.fire({
                 title: "Bilgi",
-                text:"Kategori Durumunu Değirtirmek İstiyor Musunuz ?",
+                text:"Makalenin Durumunu Değiştirmek İstiyor Musunuz ?",
                 icon:"info",
                 showDenyButton: true,
                 // showCancelButton: true,
@@ -219,7 +212,7 @@ Makale Listele Sayfası
                 }).then((result) => {
                 
                     if (result.isConfirmed) {
-                        $('#statusChangeForm').attr("action","{{ route('categories.changeStatus') }}");
+                        $('#statusChangeForm').attr("action","{{ route('article.changeStatus') }}");
                         $('#statusChangeForm').submit();
 
 
@@ -302,6 +295,15 @@ Makale Listele Sayfası
             });
 
             $('#selectParentCategory').select2();
+
+            $('#publish_date').flatpickr({
+                enableTime:true,
+                dateFormat:'Y-m-d H:i',
+            });
+
+            const popover = new bootstrap.Popover('.example-popover', {
+            container: 'body'
+            })
         });
 </script>
 @endsection

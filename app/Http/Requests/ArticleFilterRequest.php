@@ -11,7 +11,7 @@ class ArticleFilterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class ArticleFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'min_view_count'=>['integer'],
+            'max_view_count'=>['integer'],
+            'min_like_count'=>['integer'],
+            'max_like_count'=>['integer']
         ];
     }
 }

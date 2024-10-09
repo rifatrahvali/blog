@@ -4,25 +4,42 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\ArticleFilterRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
 
 
 class ArticleController extends Controller
 {
-    public function index(Request $request)
+    public function index(ArticleFilterRequest $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $users = User::all();
+
         $categories = Category::all();
-        $list = Article::query()->paginate(10);
+
+        $list = Article::query()
+                        ->with([
+                            'category',
+                            'user'
+                        ])
+                        ->where(function($query) use ($request){
+                            $query->orWhere('title','LIKE','%'.$request->search_text)
+                                ->orWhere('slug','LIKE','%'.$request->search_text)
+                                ->orWhere('body','LIKE','%'.$request->search_text)
+                                ->orWhere('tags','LIKE','%'.$request->search_text);
+                        })
+                        ->status($request->status)
+                        ->category($request->category_id)
+                        ->user($request->user_id)
+                        ->publishDate($request->publish_date)
+                        ->paginate(10);
 
         return view('admin.articles.list', compact('users','categories','list'));
     }
