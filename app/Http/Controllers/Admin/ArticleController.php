@@ -16,10 +16,15 @@ use App\Models\User;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        dd($request->all());
 
-        return view('admin.articles.list', );
+        $users = User::all();
+        $categories = Category::all();
+        $list = Article::query()->paginate(10);
+
+        return view('admin.articles.list', compact('users','categories','list'));
     }
     public function create()
     {
