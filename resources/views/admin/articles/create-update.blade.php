@@ -29,6 +29,7 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
 
 
                     {{-- NAME ALANI --}}
+                    <div class="form-text mt-3" id="name">Makale Başlığı</div>
                     <input type="text" class="form-control form-control-solid-bordered m-b-sm"
                         aria-describedby="solidBoderedInputExample" placeholder="Makale Başlığı" name="title"
                         value="{{ isset($article) ? $article->title : "" }}" required>
@@ -40,10 +41,12 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
                     @endif
 
                     {{-- SLUG ALANI --}}
+                    <div class="form-text mt-3" id="slug">Makale Slug - URL</div>
                     <input type="text" class="form-control form-control-solid-bordered m-b-sm mb-3"
                         placeholder="Makale Slug - URL" name="slug" value="{{ isset($article) ? $article->slug : "" }}">
 
                     {{-- KATEGORİ ALANI --}}
+                    <div class="form-text mt-3" id="category_id">Makalenin Kategorisi</div>
                     <select class="js-states form-control mb-3 " name="category_id" id="selectCategory" tabindex="-1"
                         style="display: none; width: 100%;">
                         <option value="{{ null }}">Kategori Seçin</option>
@@ -89,9 +92,15 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
 
                     {{-- YAYINLANMA TARİHİ ALANI --}}
                     <div class="form-text mt-3" id="publish_date">Yayınlanmasını istediğiniz tarihi seçin.</div>
-                    <input type="text" class="form-control flatpickr2 form-control-solid-bordered m-b-sm"
-                        id="publish_date" name="publish_date" placeholder="Makale Yayın Tarihini Seçin">
+                    <input type="text" 
+                        class="form-control flatpickr2 form-control-solid-bordered m-b-sm"
+                        id="publish_date" 
+                        name="publish_date" 
+                        placeholder="Makale Yayın Tarihini Seçin"
+                        value="{{ isset($article) ? $article->publish_date : '' }}"
+                    >
 
+                    
                     {{-- MAKALE GÖRSELİ ALANI --}}
                     <div class="form-text mt-3" id="image">Makaleniz için görsel ekleyin.</div>
                     <input type="file" class="form-control form-control-solid-bordered m-b-sm" name="image" id="image"
@@ -102,7 +111,7 @@ Makale {{ isset($article) ? "Güncelle" : "Ekle"}}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     @endif
-                    
+
                     @if (@isset($article) && $article->image)
                     <img src="{{ asset($article->image) }}" alt="" class="img-fluid" srcset=""
                         style="max-height: 200px;">

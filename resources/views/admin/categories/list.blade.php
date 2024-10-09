@@ -256,8 +256,8 @@ Kategori Listele Sayfası
                 icon:"info",
                 showDenyButton: true,
                 // showCancelButton: true,
-                confirmButtonText: "Değiştir",
-                denyButtonText: `Değiştirme`,
+                confirmButtonText: "Sil",
+                denyButtonText: `Silme ve iptal et.`,
                 // cancelButtonText:'İptal Et'
                 }).then((result) => {
                 

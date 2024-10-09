@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Models\User;
 
 
@@ -112,10 +114,83 @@ class ArticleController extends Controller
 
     }
 
+    public function update(ArticleUpdateRequest $request, int $articleID)
+    {
+
+        // Tokeni haric tut
+        $data = $request->except('_token');
+
+        // slug kontrol
+        $slug = $data['slug'] ?? $data['title'];
+        $slug = Str::slug($slug);
+        $slugTitle = Str::slug($data['title']);
+        $checkSlug = $this->slugCheck($slug);
+
+        // slug kullanılıyorsa - title slug kontrol et
+        if (!is_null($checkSlug)) {
+            $checkTitleSlug = $this->slugCheck($slugTitle);
+            // title slug dolu ise yani kullanılıyorsa
+            if (!is_null($checkTitleSlug)) {
+                $slug = Str::slug($slug . time());
+            } else {
+                // kullanılmıyorsa sluga ata
+                $slug = $slugTitle;
+            }
+        }
+        $data['slug'] = $slug;
+
+        // Requestten gelen image inputunun içerisinde görsel var ise
+        if (!is_null($request->image)) {
+            $imageFile = $request->file('image');
+            $originalName = $imageFile->getClientOriginalName();
+            $originalExtension = $imageFile->getClientOriginalExtension();
+            $explodeName = explode(".", $originalName)[0];
+            $fileName = Str::slug($explodeName) . "." . $originalExtension;
+            $folder = "articles";
+            $publicPath = "storage/" . $folder;
+
+            // daha önce aynı isimli görsel yüklendi ise
+            if (file_exists(public_path($publicPath . $fileName))) {
+                return redirect()->back()->withErrors([
+                    'image' => 'Görsel daha önce yüklenmiştir. (ismi aynı)',
+                ]);
+            }
+
+            $data['image'] = $publicPath . '/' . $fileName;
+        }
+
+        $data['user_id'] = auth()->id();
+
+
+        // Makaleyi Güncelle
+        $articleQuery = Article::query()->where('id',$request->id);
+        $articleFind = $articleQuery->first();
+        
+        $articleQuery->update($data);
+       
+
+        if (!is_null($request->image)) {
+
+            if(file_exists(public_path($articleFind->image))){
+                File::delete(public_path($articleFind->image));
+            }
+
+            // eski görselin silinmesini sağlar.
+            // Storage::delete(public_path($articleFind->image));
+            $imageFile->storeAs($folder, $fileName);
+        }
+        toast("Makale Kaydedildi", 'success')->autoClose(3000);
+        return redirect()->route('article.index');
+        
+
+    }
+
 
     // slug check
     public function slugCheck(string $text)
     {
         return Article::where('slug', $text)->first();
     }
+
+
 }
