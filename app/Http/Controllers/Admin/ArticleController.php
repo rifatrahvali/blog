@@ -9,6 +9,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 
 class ArticleController extends Controller
@@ -84,7 +85,7 @@ class ArticleController extends Controller
         }
 
         $data['slug'] = $slug;
-        $data['image'] = $publicPath .'/'. $fileName;
+        $data['image'] = $publicPath . '/' . $fileName;
         $data['user_id'] = auth()->id();
 
         Article::create($data);
@@ -93,9 +94,22 @@ class ArticleController extends Controller
         return redirect()->back();
     }
 
-    public function edit(Request $request,int $articleID)
+
+    public function edit(Request $request, int $articleID)
     {
-        $article = Article::find($articleID);
+
+        $categories = Category::all();
+        $users = User::all();
+
+        $article = Article::query()
+            ->where("id", $articleID)
+            ->first();
+        if (is_null($article)) {
+            toast('Makale Bulunamadı.', 'warning')->autoClose(3000);
+            return redirect()->route('article.index');
+        }
+        return view('admin.articles.create-update', compact('article', 'categories', 'users'));
+
     }
 
 
