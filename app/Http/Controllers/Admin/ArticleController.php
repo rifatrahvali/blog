@@ -208,7 +208,7 @@ class ArticleController extends Controller
 
     }
 
-    public function changeStatus(Request $request):JsonResponse
+    public function changeStatus(Request $request): JsonResponse
     {
         $articleID = $request->articleID;
 
@@ -218,18 +218,34 @@ class ArticleController extends Controller
             $article->save();
 
             return response()
-                    ->json(['status' => 'success','message'=>'Başarılı', 'data' => $article, 'article_status' => $article->status])
-                    ->setStatusCode(200);
+                ->json(['status' => 'success', 'message' => 'Başarılı', 'data' => $article, 'article_status' => $article->status])
+                ->setStatusCode(200);
         }
         // Article Bulunamadıysa
         return response()
-                    ->json(['status' => 'error','message'=>'Makale Bulunanmadı. 404', 'data' => $article, 'article_status' => $article->status])
-                    ->setStatusCode(404);
-      
+            ->json(['status' => 'error', 'message' => 'Makale Bulunanmadı. 404'])
+            ->setStatusCode(404);
+
     }
 
+    public function delete(Request $request)
+    {
+        $articleID = $request->articleID;
 
-    // slug check
+        $article = Article::query()->where("id", $articleID)->first();
+        if ($article) {
+
+            $article->delete();
+
+            return response()
+                ->json(['status' => 'success', 'message' => 'Makale Başarıyla Silindi.', 'data' => "", 'article_status' => ""])
+                ->setStatusCode(200);
+        }
+        // Article Bulunamadıysa
+        return response()
+            ->json(['status' => 'error', 'message' => 'Makale Bulunanmadı. 404'])
+            ->setStatusCode(404);
+    }
     public function slugCheck(string $text)
     {
         return Article::where('slug', $text)->first();

@@ -119,7 +119,7 @@ Makale Listele Sayfası
             <x-slot:rows>
                 @foreach ($list as $article)
 
-                <tr>
+                <tr id="row-{{$article->id}}">
                     <td>
                         @if (!empty($article->image))
                         <img src="{{ asset($article->image) }}" height="100" class="img-fluid">
@@ -153,7 +153,7 @@ Makale Listele Sayfası
                             <a href="javascript:void(0)" class="btn btn-warning btn-sm">
                                 <i class="material-icons ms-0">edit</i>
                             </a>
-                            <a href="javascript:void(0)" class="btn btn-danger btn-sm btnDeleteCategory"
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm btnDeleteArticle"
                                 data-name="{{ $article->title}}" data-id="{{ $article->id }}">
                                 <i class="material-icons ms-0">delete</i>
                             </a>
@@ -194,54 +194,7 @@ Makale Listele Sayfası
     // Sayfa hazır olduğunda yapılacak işlemler
         $(document).ready(function(){
 
-            // // DURUM BUTONUNA tıklandığında - btnChangeStatus
-            // $('.btnChangeStatus').click(function(){
-            //     // idleri al
-            //     let articleID = $(this).data('id');
-            //     let self = $(this);
 
-            //     Swal.fire({
-            //     title: "Bilgi",
-            //     text:"Makalenin Durumunu Değiştirmek İstiyor Musunuz ?",
-            //     icon:"info",
-            //     showDenyButton: true,
-            //     confirmButtonText: "Değiştir",
-            //     denyButtonText: `Değiştirme`,
-            //     }).then((result) => {
-            //         // Değiştir Butonuna Tıklanırsa
-            //         if (result.isConfirmed) {
-            //             // STATUS değiştirmek için ajax isteği oluşturacağız.
-            //             $.ajax({
-            //                 method:"POST",
-            //                 url:" {{ route('article.changeStatus') }} ",
-            //                 data:{
-            //                     articleID : articleID,
-            //                 },
-            //                 async:false,
-            //                 success:function(data){
-            //                     if (data.article_status) {
-            //                         // article status 1 ise
-            //                         self.removeClass('btn-danger').addClass('btn-success').text('Aktif');
-            //                     }else{
-            //                         // article status 0 ise
-            //                         self.removeClass('btn-success').addClass('btn-danger').text('Pasif');
-            //                     }
-            //                     Swal.fire({
-            //                         title: "Bilgi",
-            //                         text: "Makalenin durumu güncellendi.",
-            //                         confirmButtonText: "Tamam",
-            //                         icon:"success",
-            //                     });
-            //                 },
-            //                 error:function(data){
-                                
-            //                     console.log("hata");
-            //                 },
-            //             });
-            //         } 
-            //     });
-           
-            // });
             // DURUM BUTONUNA tıklandığında - btnChangeStatus
             $('.btnChangeStatus').click(function(){
                 // idleri al
@@ -270,7 +223,7 @@ Makale Listele Sayfası
                                 console.log(data); // AJAX cevabını konsola basıyoruz
 
                                 // Gelen status değerine göre butonun görünümünü güncelle
-                                if (data.article_status === 1) { // Dikkat: "aritcle_status" kullanalım
+                                if (data.article_status === 1) { 
                                     self.removeClass('btn-danger').addClass('btn-success').text('Aktif');
                                 } else {
                                     self.removeClass('btn-success').addClass('btn-danger').text('Pasif');
@@ -291,34 +244,45 @@ Makale Listele Sayfası
                 });
             });
 
-            $('.btnDeleteCategory').click(function(){
+            // MAKALE SİL BUTONUNA TIKLANDIĞINDA
+            $('.btnDeleteArticle').click(function(){
                 // idleri al
-                let categoryID = $(this).data('id');
-                let categoryName = $(this).data('name');
-                $('#inputStatus').val(categoryID);
+                let articleID = $(this).data('id');
+                let articleName = $(this).data('name');
 
                 Swal.fire({
                 title: "Bilgi",
-                text: categoryName + " Kategorisini Silmek İstiyor Musunuz ?",
+                text: articleName + " Makalesini Silmek İstiyor Musunuz ?",
                 icon:"info",
                 showDenyButton: true,
-                // showCancelButton: true,
                 confirmButtonText: "Sil",
                 denyButtonText: `Silme ve iptal et.`,
-                // cancelButtonText:'İptal Et'
                 }).then((result) => {
-                
+                    
+                    // SİL BUTONUNA TIKLANIRSA
                     if (result.isConfirmed) {
-                        $('#statusChangeForm').attr("action","{{ route('categories.delete') }}");
-                        $('#statusChangeForm').submit();
+                        // AJAX İLE SAYFA YENİLENMEDEN SİLME İŞLEMLERİ
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ route('article.delete') }}",
+                            data: {
+                                "_method":"DELETE",
+                                articleID: articleID,
+                            },
+                            success: function(data) {
 
-
-                    } else if (result.isDenied) {
-                        Swal.fire({
-                            title: "Bilgi",
-                            text: "Değişiklik Yapılmadı.",
-                            confirmButtonText: "Tamam",
-                            icon:"info",
+                                $('#row-'+articleID).remove();
+                                
+                                Swal.fire({
+                                    title: "Bilgi",
+                                    text: "Makale Silindi.",
+                                    confirmButtonText: "Tamam",
+                                    icon: "success",
+                                });
+                            },
+                            error: function(data) {
+                                console.log("Hata oluştu", data);
+                            }
                         });
                     }
                 });
