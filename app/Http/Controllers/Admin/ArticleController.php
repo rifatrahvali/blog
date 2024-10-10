@@ -40,7 +40,22 @@ class ArticleController extends Controller
             ->category($request->category_id)
             ->user($request->user_id)
             ->publishDate($request->publish_date)
-            ->paginate(10);
+            ->where(function($query) use($request){
+                if($request->min_view_count){
+                    $query->where('view_count','>=',(int)$request->min_view_count);
+                }
+                if($request->max_view_count){
+                    $query->where('view_count','<=',(int)$request->max_view_count);
+                }
+                if($request->min_like_count){
+                    $query->where('like_count','>=',(int)$request->min_like_count);
+                }
+                if($request->max_like_count){
+                    $query->where('like_count','<=',(int)$request->max_like_count);
+                }
+                
+            })
+            ->paginate(5);
 
         return view('admin.articles.list', compact('users', 'categories', 'list'));
     }
@@ -118,7 +133,6 @@ class ArticleController extends Controller
         toast("Makale Kaydedildi", 'success')->autoClose(3000);
         return redirect()->back();
     }
-
 
     public function edit(Request $request, int $articleID)
     {
