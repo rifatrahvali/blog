@@ -150,7 +150,7 @@ Makale Listele Sayfası
                     <td>{{ $article->user->name }}</td>
                     <td>
                         <div class="d-flex">
-                            <a href="javascript:void(0)" class="btn btn-warning btn-sm">
+                            <a href="{{ route( 'article.edit',['id' => $article->id ] ) }}" class="btn btn-warning btn-sm">
                                 <i class="material-icons ms-0">edit</i>
                             </a>
                             <a href="javascript:void(0)" class="btn btn-danger btn-sm btnDeleteArticle"
@@ -272,7 +272,7 @@ Makale Listele Sayfası
                             success: function(data) {
 
                                 $('#row-'+articleID).remove();
-                                
+
                                 Swal.fire({
                                     title: "Bilgi",
                                     text: "Makale Silindi.",
