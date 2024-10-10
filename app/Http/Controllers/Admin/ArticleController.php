@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 
 
 class ArticleController extends Controller
@@ -25,23 +26,23 @@ class ArticleController extends Controller
         $categories = Category::all();
 
         $list = Article::query()
-                        ->with([
-                            'category',
-                            'user'
-                        ])
-                        ->where(function($query) use ($request){
-                            $query->orWhere('title','LIKE','%'.$request->search_text)
-                                ->orWhere('slug','LIKE','%'.$request->search_text)
-                                ->orWhere('body','LIKE','%'.$request->search_text)
-                                ->orWhere('tags','LIKE','%'.$request->search_text);
-                        })
-                        ->status($request->status)
-                        ->category($request->category_id)
-                        ->user($request->user_id)
-                        ->publishDate($request->publish_date)
-                        ->paginate(10);
+            ->with([
+                'category',
+                'user'
+            ])
+            ->where(function ($query) use ($request) {
+                $query->orWhere('title', 'LIKE', '%' . $request->search_text)
+                    ->orWhere('slug', 'LIKE', '%' . $request->search_text)
+                    ->orWhere('body', 'LIKE', '%' . $request->search_text)
+                    ->orWhere('tags', 'LIKE', '%' . $request->search_text);
+            })
+            ->status($request->status)
+            ->category($request->category_id)
+            ->user($request->user_id)
+            ->publishDate($request->publish_date)
+            ->paginate(10);
 
-        return view('admin.articles.list', compact('users','categories','list'));
+        return view('admin.articles.list', compact('users', 'categories', 'list'));
     }
     public function create()
     {
@@ -185,15 +186,15 @@ class ArticleController extends Controller
 
 
         // Makaleyi Güncelle
-        $articleQuery = Article::query()->where('id',$request->id);
+        $articleQuery = Article::query()->where('id', $request->id);
         $articleFind = $articleQuery->first();
-        
+
         $articleQuery->update($data);
-       
+
 
         if (!is_null($request->image)) {
 
-            if(file_exists(public_path($articleFind->image))){
+            if (file_exists(public_path($articleFind->image))) {
                 File::delete(public_path($articleFind->image));
             }
 
@@ -203,8 +204,28 @@ class ArticleController extends Controller
         }
         toast("Makale Kaydedildi", 'success')->autoClose(3000);
         return redirect()->route('article.index');
-        
 
+
+    }
+
+    public function changeStatus(Request $request):JsonResponse
+    {
+        $articleID = $request->articleID;
+
+        $article = Article::query()->where("id", $articleID)->first();
+        if ($article) {
+            $article->status = $article->status ? 0 : 1;
+            $article->save();
+
+            return response()
+                    ->json(['status' => 'success','message'=>'Başarılı', 'data' => $article, 'article_status' => $article->status])
+                    ->setStatusCode(200);
+        }
+        // Article Bulunamadıysa
+        return response()
+                    ->json(['status' => 'error','message'=>'Makale Bulunanmadı. 404', 'data' => $article, 'article_status' => $article->status])
+                    ->setStatusCode(404);
+      
     }
 
 
